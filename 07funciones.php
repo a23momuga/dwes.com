@@ -1,228 +1,311 @@
 <?php
+    /* Funciones en PHP
 
-/**
- * Conjunto de sentencias que se agrupan bajo un nombre y que se pueden reutilizar
- *  
- * Tipos: 
- * - Internas, integradas o predefinidas -> Las propias del lenguaje
- * - Métodos de clase -> Funciones que se definen dentro de una clase
- * - Definidas por el usuario -> Funciones que se definen por el programador
- * 
- * 
- * 3.1. Definición de funciones
- * 
- * -Se puede definir en cualquier parte del script
- * Tiene una cabecera y un cuerpo
- * - Sintaxis: 
- * function nombre_funcion(parametro1, parametro2, ..., parametroN) {
- *     sentencias
- * }
- * - Nombre: Identificador de la función sin $
- * - Parámetros: Variables que se pasan a la función
- * - Sentencias: Conjunto de instrucciones que se ejecutan al llamar a la función
- */
+    Conjunto de sentencias con un nombre asociado
+    que se ejecutan a discreción del desarrollador,
+    cuando es necesario.
+    
+    Invocación o llamada de la función: Sentencia que solicita
+    la ejecución de la función, momento en el cual el flujo
+    del programa se desvía a la primera sentencia de la función
+    y comienza su ejecución.
 
-function area_triangulo($base, $altura)
-{
-    return ($base * $altura) / 2;
-}
-?>
-<!DOCTYPE html>
-<html lang="en">
+    Las funciones pueden necesitar datos. Estos datos se les
+    pasa en forma de parámetros o argumentos de la función
+    en el momento de la invocación.
 
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Funciones</title>
-</head>
+    Pueden devolver uno o varios valores al punto de invocación
+    que puede posteriormente utilizarse en cualquier expresión.
 
-<body>
-    <h1>Funciones</h1>
-    <?php
-    // Llamada a la función
-    $base = 10;
-    $altura = 5;
-    $area = area_triangulo($base, $altura);
-    echo "El área del triángulo de base $base y altura $altura es $area";
+    Tipos:
+        - Internas, integradas o predefinidas -> Las propias del lenguaje.
+        - Métodos -> Funciones de clases de objetos.
+        - De usuario -> Las que el desarrollador define.
 
-    //Paso por referencia
-    //Al usar por referencia, se cambia el valor de la variable original
-    //si no se usa & no cambia el valor de la variable original
-    //En la llamada a la función usamos & antes del argumento.
-    //En este paso, el argumento es obligatorio que sea una variable
-    function area_triangulo2(&$base, &$altura)
-    {
-        $base = 20;
-        $altura = 10;
-        return ($base * $altura) / 2;
+    3.1 Definición de la función
+
+    - Se puede definir en cualquier parte del script.
+    - Tiene una cabecera y un cuerpo
+    - Sintaxis:
+        function nombre_función( [arg1, arg2, ...]) {
+            sentencias
+        }
+        - Nombre: cualquier identificador válido sin $
+        - Lista de parámetros o argumento separados por coma.
+        - El cuerpo de la función es el conjunto de sentencias entre {}
+
+    3.3 Paso de parámetros
+        - Parámetro: Dato que la función necesita para su ejecución.
+        - Permite que las funciones se ejecuten múltiples veces
+          con diferentes datos. El objetivo de las funciones es evitar
+          código repetitivo.
+        - Tipos de parámetros:
+            - Parámetro formal -> El que se define en la cabecera de la función.
+              Este parámetro es equivalente a una variable. Conocido simplemente
+              como PARÁMETRO.
+            - Parámetro real -> El que se emplea en la invocación. Puede ser una
+              expresión cualquier que arroje un valor. Conocido como ARGUMENTO.
+
+        - Los argumentos y los parámetros tienen una correspondecia por su posición
+          en la definición y en la invocación. El primer argumento corresponde al
+          primer parámetro, el segundo argumento al segundo parámetro, ...
+
+        3.3.1 Paso de parámetros por valor y por referencia.
+
+        - Paso por valor -> Consiste en copiar el valor del argumento en el parámetro
+          Hay dos entidades: el parámetro de la función y el argumento de la llamada,
+          que son independientes.
+
+        - Paso por referencia -> Consiste en pasar al parámetro la referencia (dirección
+          de memoria) del argumento. Por tanto, solo hay una entidad y si el parámetro
+          dentro de la función se modifica, el nuevo valor es visible en el script
+          principal.
+
+        3.3.2 Parámetros con valor por defecto
+        En la cabecera la función los parámetros pueden tener un valor por defecto (solo
+        literales)
+        Pueden ser arrays y null
+        Permite invocar la función sin esos parámetros, los cuales adquieren como valor
+        el valor por defecto definido en la cabecera de la función.
+
+        Si la función combina parámetros obligatorios con parámetros con valor por defecto,
+        los obligatorios se definen antes que los de por defecto, salvo que en la invocación
+        usemos argumentos con nombre.
+
+        3.3.3 Tipos de datos
+        En cada parámetro podemos definir su tipo de datos, de forma tal que si en la
+        invocación no pasamos un argumento del mismo tipo de datos primero intenta una 
+        conversión implícita al tipo definido en el parámetro. Si no
+        puede dispara TypeError. Si puede, la hace y la función continua.
+
+        3.3.5 Parámetros con nombre
+        En la invocación de la función paso el argumento con el nombre del parámetro.
+        Esto permite utilizar un orden diferente en los argumentos al de los parámetros
+        definidos en la cabecera de la función.
+
+        3.4 Valor de devolución
+        ¿Cómo se devuelve más de un valor? Con un array. Luego se recoge con list() o
+        con un array.
+
+        3.5 Ámbito y visibilidad de una variable
+        - Ámbito -> Fragmento del programa donde una variable existe.
+        - Visibilidad -> Fragmento del programa donde una variable existe y es accesible.
+
+        Resumen:
+        - En una función no se accede a variables definidas fuera de la función,
+          salvo las declaradas globales (con global) o el array $GLOBLAS.
+        - Si se modifica el valor de una variable globa, su valor persiste.
+        - Las variables static conservan su valor entre invocaciones de la función,
+          pero son locales en la función.
+        - Los parámetros de una función son como variables locales de la función.
+
+    3.7 Recursividad
+      Una función se invoca a si misma.
+
+
+    */
+
+    define("PI",3.14159);
+
+    function area_triangulo($base, $altura) {
+        $area = $base * $altura / 2;
+
+        return $area;
     }
 
-    $base = 10;
-    $altura = 5;
-    $area = area_triangulo2($base, $altura);
-    echo "<br>El área del triángulo de base $base y altura $altura es $area";
+    function area_triangulo2(&$base, &$altura) {
+        echo "1.- Dentro de la función: $base y $altura<br>";
+        $base = 10;
+        $altura = 20;
 
-    // 3.3.2. Parámetros con nombre
-    // En la invocación de la función se pueden pasar los argumentos con el nombre del parámetro
-    // 
+        $area = $base * $altura / 2;
 
-    function area_triangulo3($base, $altura)
-    {
-        return ($base * $altura) / 2;
-    }
-    //Paso de parametros con nombre, esto permite cambiar el orden de los parametros
-    $area = area_triangulo3($altura = 7, $base = 9);
+        echo "2.- Dentro de la función: $base y $altura<br>";
 
-    echo "<br>El área del triángulo de base $base y altura $altura es $area";
-
-    // 3.3.3. Parámetros con valor por defecto
-    // Se pueden asignar valores por defecto a los parámetros (solo literales) ni variables ni expresiones
-    // Se asignan en la cabecera de la función
-    // Si se llama a la función sin pasar un valor, se toma el valor por defecto
-    // Pueden ser arrays y null
-    // Permite invocar la función sin esos parámetros, los ccuales adquieren como valor por defecto el 
-    // valor asignado en la definición de la función
-    // Si la función combina parámetros con valor por defecto y sin valor por defecto, los parámetros con valor por defecto
-    // deben ir al final de la lista de parámetros, salvo que en la invocación se usen los nombres de los parámetros
-
-    define("PI", 3.1416);
-    function volumen_cilindro($radio, $altura = 10)
-    {
-        return PI * $radio * $radio * $altura;
+        return $area;
     }
 
+    function volumen_cilindro($radio, $altura = 10) {
+        $area_base = PI * $radio ** 2;
+        $volumen = $area_base * $altura;
 
-    //Parámetros con valor por defecto
-    $volumen = volumen_cilindro(5);
-    echo "<br>El volumen del cilindro de radio 5 y altura 10 es $volumen";
-    $volumen = volumen_cilindro(5, 20);
-    echo "<br>El volumen del cilindro de radio 5 y altura por defectos es $volumen";
+        return $volumen;
+    }
 
-echo "<br>";
-    //Deifinir el tipo de dato de los parámetros
-    function area_rectangulo(float $base, float $altura)
-    {
-        echo "Función area_rectangulo". gettype($base)."<br>";
-        echo " Función area_rectangulo". gettype($altura)."<br>";
+    function area_rectangulo(float $base, float $altura) {
+        echo "Función a_r: " . gettype($base) . "<br>";
+        echo "Función a_r: " . gettype($altura) . "<br>";
+
         return $base * $altura;
     }
 
-    $area = area_rectangulo("8", 5);
-    echo "<br>El área del rectángulo de base 8 y altura 5 es $area";
-
-
-    function media_aritmetica(...$numeros){
-        $suma=0;
-        foreach($numeros as $numero){
+    function media_aritmetica( ...$numeros ) {
+        $suma = 0;
+        foreach( $numeros as $numero) {
             $suma += $numero;
         }
 
         return $suma / count($numeros);
 
-        //func_num_args(); //comprueba todos los argumentos pasado a la función, (cuando hay un argumento es igual que count), 
-        //pero cuando hay mas 1 no es igual que count
+        // func_num_args(); -> Devuelve el nº de argumentos pasados
 
-    };
+    }
 
-    $media = media_aritmetica(2, 4, 6, 8, 10);
-    echo "<br>La media aritmética de 2, 4, 6, 8 y 10 es $media";
+    function circulo_y_circunferencia($radio): array {
 
-
-    // 3.4. Valor de devolución
-    /**
-     * Como se devuelve mas de un valor? Con un array. Luego
-     * se recoge con list() o con un array
-     */
-
-    //:array -> indica que el return devuelve un array
-    function circulo_y_circunferencia($radio): array
-    {
-        echo "<br>";
-        $resultado[]=PI * $radio * $radio;
-        $resultado[]= 2 * PI * $radio;
+        $resultado[] = PI * $radio ** 2;
+        $resultado[] = 2 * PI * $radio;
 
         return $resultado;
     }
 
-    //Devolucion de mas de un valor
-    $circulo_y_circunferencia = circulo_y_circunferencia(5);
-    echo "<br>El área del círculo de radio 5 es $circulo_y_circunferencia[0]";
-    echo "<br>La circunferencia del círculo de radio 5 es $circulo_y_circunferencia[1]";
-
-
-    //Obtenemos los valores devueltos en variables
-    list($v1,$v2) = circulo_y_circunferencia(6);
-    echo "<br>El área del círculo de radio 5 es $v1";
-    echo "<br>La circunferencia del círculo de radio 5 es $v2";
-
-    // ? -> indica que el valor devuelto puede ser null
-    function area_rectangulo2(float $base, float $altura): ?float
-    {
-        if ($base <= 0 || $altura <= 0) {
+    function area_rectangulo2($base, $altura): ?float {
+        if( $base < 0 || $altura < 0 ) {
             $area = null;
-        }else{
+        }
+        else {
             $area = $base * $altura;
         }
+
         return $area;
+
     }
 
-    $area = area_rectangulo2(1, 5);
-    echo $area ? "<br>El área del rectángulo de base 8 y altura 5 es $area" : "<br>Los valores de base y altura deben ser mayores que 0";
-
-    /**
-     * 3.5. Ámbito y visibilidad de una variable
-     * - Ámbito: Fragmento del programa donde una variable existe
-     * - Visibilidad: Capacidad de acceder a una variable desde cualquier parte del script
-     */
-
-     function suma(){
-        //global permite acceder a variables globales
+    function Suma() {
         //global $a, $b;
-         //$resultado = $a + $b;
-         $resultado = $GLOBALS['a'] + $GLOBALS['b'];
-         return $resultado;
-     }
 
-        $a = 5;
-        $b = 7;
-        $resultado = suma();
-        echo "<br>La suma de $a y $b es $resultado ";
+        //$resultado = $a + $b;
+        $a = 9;
+        $resultado = $a + $GLOBALS['b'];
 
-    function contador_ejecuciones(){
-        //static -> permite que la variable mantenga su valor entre llamadas a la función
-        static $contador = 0;
-        $contador++;
-        
+        $resultado = $GLOBALS['a'] + $GLOBALS['b'];
 
-        echo "<br>Esta es la ejecución número $contador";
+        return $resultado;
     }
 
-    contador_ejecuciones();
-    contador_ejecuciones();
-    contador_ejecuciones();
+    function contador_ejecuciones() {
+        static $numero_ejecuciones = 0;
+        $numero_ejecuciones++;
 
-    // 3.6. Recursividad
-    // Una función se llama a sí misma
-    // Se utiliza para resolver problemas que se pueden descomponer en subproblemas más simples
-    // Se compone de dos partes: caso base y caso recursivo
-    // Caso base: Condición que detiene la recursividad
-    // Caso recursivo: Llamada a la función dentro de la función
+        echo "La función se ha ejecutado $numero_ejecuciones veces<br>";
+    }
 
-    function factorial($n){
-        
-        if($n == 0){
-            return 1;
-        }else{
-            return $n * factorial($n - 1);
+    function factorial($numero) {
+        /*
+        !n = n * (n-1) * (n-2) * ... 1
+        !n = n * !(n-1)
+        */
+
+        if( $numero == 1 ) {
+            $factorial = 1;
         }
-    }
-    $numeros = [1, 2, 3, 4, 5,9];
-    echo "<br>";
-    
-    foreach($numeros as $numero){
-        echo "El factorial de $numero es ". factorial($numero)."<br>";
-    }
-    ?>
-</body>
+        else {
+            $factorial = $numero * factorial($numero - 1);
+        }
 
+        return $factorial;
+
+    }
+?>
+<!DOCTYPE html>
+<html lang="es">
+    <head>
+        <meta charset="utf-8">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <title>Funciones</title>
+    </head>
+    <body>
+        <h1>Funciones</h1>
+<?php
+    $base = 8;
+    $altura = 3;
+
+    // 3.2 Invocación o ejecución de la función
+    $area = area_triangulo($base, $altura);
+
+    echo "El triángulo con base $base y altura $altura tiene de área $area<br>";
+
+    // Paso por valor
+    $area = area_triangulo2($base, $altura);
+    echo "El triángulo con base $base y altura $altura tiene de área $area<br>";
+
+    // En el paso por valor permite que el argumento sea una expresión
+    // cualquiera
+    //$area = area_triangulo2(9, $base / 2);
+    echo "El triángulo con base 9 y altura 4 tiene de área $area<br>";
+
+    // Paso por referencia
+    // En la llamada a la función usamos & antes del argumento.
+    // En este caso, el argumento es obligatorio que sea una variable.
+    $base = 8;
+    $altura = 3;
+    $area = area_triangulo2($base, $altura);
+    echo "El triángulo con base $base y altura $altura tiene de área $area<br>";
+
+    // Paso de parámetros con nombre
+    $area = area_triangulo($altura = 5, $base = 10);
+    echo "El triángulo con base $base y altura $altura tiene de área $area<br>";
+
+    // Parámetros por defecto
+    $volumen = volumen_cilindro(8, 9);
+    echo "El volumen del cilindro con radio 8 y altura 9 es: $volumen<br>";
+    $volumen = volumen_cilindro(10);
+    echo "El volumen del cilindro con radio 10 y altura (por defecto) es: $volumen<br>";
+
+    // Tipos de datos en los parámetros
+    $area = area_rectangulo("8", 9);
+    echo "El área del rectángulo es $area<br>";
+
+    // Número de argumento variable
+    $media = media_aritmetica(3, $area, 8, 9, 2.5, $volumen );
+    echo "La media de los números anteriores es $media<br>";
+
+    // Devolución de más de un valor
+    $circulo_y_circunferencia = circulo_y_circunferencia(5);
+    echo "El área del círculo con radio 5 es {$circulo_y_circunferencia[0]} y la 
+    longitud de la circunferencia es {$circulo_y_circunferencia[1]}<br>";
+
+    list($v1, $v2) = circulo_y_circunferencia(6);
+    echo "El área es $v1 y la circunferencia es $v2<br>";
+
+    // Valor null en la devolución
+    $area = area_rectangulo2(-3, 9);
+    echo ($area ? "El área es $area<br>" : "Algún parámetro es negativo<br>");
+
+    $area = area_rectangulo2(3, 9);
+    echo ($area ? "El área es $area<br>" : "Algún parámetro es negativo<br>");
+
+    // Ámbito y visibilidad de las variables
+    $a = 3;
+    $b = 8;
+    $resultado = Suma();
+    echo "El valor de a es $a, el de b es $b, y la suma es $resultado-<br>";
+
+
+    // Variables estáticas
+    contador_ejecuciones();
+    contador_ejecuciones();
+    contador_ejecuciones();
+    contador_ejecuciones();
+    contador_ejecuciones();
+
+    // Función recursiva
+    $numeros = [ 6, 4, 9, 2];
+    foreach( $numeros as $numero ){
+        $factorial = factorial($numero);
+        echo "El factorial de $numero es $factorial<br>";
+    }
+
+?>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+<br>
+
+
+    </body>
 </html>
